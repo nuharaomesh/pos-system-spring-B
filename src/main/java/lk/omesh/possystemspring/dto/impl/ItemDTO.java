@@ -1,5 +1,6 @@
 package lk.omesh.possystemspring.dto.impl;
 
+import lk.omesh.possystemspring.dto.ItemStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ItemDTO {
+public class ItemDTO implements ItemStatus {
     private String itemID;
     private String itemName;
     private String category;
