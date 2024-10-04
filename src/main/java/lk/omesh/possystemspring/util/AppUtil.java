@@ -7,7 +7,12 @@ public class AppUtil {
     public static String generateCustomerID() {
         return "CUSTOMER-" + UUID.randomUUID();
     }
-    public static String profilePicToBase64(byte[] profilePic) {
-        return Base64.getEncoder().encodeToString(profilePic);
+
+    public static String generateItemID() {
+        return "ITEM-" + UUID.randomUUID();
+    }
+
+    public static String itemPicToBase64(byte[] itemPic) {
+        return Base64.getEncoder().encodeToString(itemPic);
     }
 }
