@@ -2,8 +2,11 @@ package lk.omesh.possystemspring.util;
 
 import lk.omesh.possystemspring.dto.impl.CustomerDTO;
 import lk.omesh.possystemspring.dto.impl.ItemDTO;
+import lk.omesh.possystemspring.dto.impl.OrderDTO;
 import lk.omesh.possystemspring.entity.impl.Customer;
 import lk.omesh.possystemspring.entity.impl.Item;
+import lk.omesh.possystemspring.entity.impl.Order;
+import lk.omesh.possystemspring.entity.impl.OrderDetails;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +42,13 @@ public class Mapping {
 
     public List<ItemDTO> getItemDTOList(List<Item> itemList) {
         return modelMapper.map(itemList, new TypeToken<List<ItemDTO>>(){}.getType());
+    }
+
+    public Order toOrderEntity(OrderDTO.Order order) {
+        return modelMapper.map(order, Order.class);
+    }
+
+    public OrderDetails toOrderDetailEntity(OrderDTO.OrderItem orderItem) {
+        return modelMapper.map(orderItem, OrderDetails.class);
     }
 }
