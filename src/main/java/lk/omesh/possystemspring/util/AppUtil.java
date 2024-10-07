@@ -12,6 +12,10 @@ public class AppUtil {
         return "ITEM-" + UUID.randomUUID();
     }
 
+    public static String generateOrderID() {
+        return "ORDER-" + UUID.randomUUID();
+    }
+
     public static String itemPicToBase64(byte[] itemPic) {
         return Base64.getEncoder().encodeToString(itemPic);
     }
