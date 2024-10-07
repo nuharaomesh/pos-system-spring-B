@@ -37,7 +37,7 @@ public class OrderServiceImpl implements OrderService {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public void saveItem(String jsonList) throws JsonProcessingException {
+    public void placeOrder(String jsonList) throws JsonProcessingException {
 
         List<Object> objectList = objectMapper.readValue(jsonList, List.class);
 
