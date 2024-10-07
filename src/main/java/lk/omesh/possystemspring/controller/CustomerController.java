@@ -6,6 +6,8 @@ import lk.omesh.possystemspring.dto.impl.CustomerDTO;
 import lk.omesh.possystemspring.exception.CustomerNotFoundException;
 import lk.omesh.possystemspring.exception.DataPersistException;
 import lk.omesh.possystemspring.service.CustomerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,8 +23,7 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
-    @Autowired
-    private Validator mvcValidator;
+    static Logger log = LoggerFactory.getLogger(CustomerController.class);
 
     @GetMapping(value = "/{customerID}")
     public CustomerStatus getCustomer(@PathVariable("customerID") String ID) {
@@ -41,12 +42,13 @@ public class CustomerController {
 
         try {
             customerService.saveCustomer(dto);
+            log.info("Customer Successfully Saved!");
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (DataPersistException e) {
-            e.printStackTrace();
+            log.info("Customer Not Saved: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info("Internal Server Error: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -55,12 +57,13 @@ public class CustomerController {
     public ResponseEntity<Void> updateCustomer(@PathVariable("customerID") String customerID, @RequestBody CustomerDTO dto)  {
         try {
             customerService.updateCustomer(customerID, dto);
+            log.info("Customer Successfully Updated!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (DataPersistException e) {
-            e.printStackTrace();
+            log.info("Customer Not Updated: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info("Internal Server Error: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -69,12 +72,13 @@ public class CustomerController {
     public ResponseEntity<Void> deleteCustomer(@PathVariable("customerID") String customerID) {
         try {
             customerService.deleteCustomer(customerID);
+            log.info("Customer Successfully Deleted!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (CustomerNotFoundException e) {
-            e.printStackTrace();
+            log.info("Customer Not Deleted: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info("Internal Server Error: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
