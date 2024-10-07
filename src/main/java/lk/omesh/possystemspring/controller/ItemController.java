@@ -1,6 +1,5 @@
 package lk.omesh.possystemspring.controller;
 
-import jakarta.servlet.annotation.MultipartConfig;
 import lk.omesh.possystemspring.customStatudCode.SelectedItemErrorCode;
 import lk.omesh.possystemspring.dto.ItemStatus;
 import lk.omesh.possystemspring.dto.impl.ItemDTO;
@@ -8,6 +7,8 @@ import lk.omesh.possystemspring.exception.CustomerNotFoundException;
 import lk.omesh.possystemspring.exception.DataPersistException;
 import lk.omesh.possystemspring.service.ItemService;
 import lk.omesh.possystemspring.util.AppUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,6 +24,7 @@ public class ItemController {
 
     @Autowired
     private ItemService itemService;
+    static Logger log = LoggerFactory.getLogger(ItemController.class);
 
     @GetMapping(value = "/{itemID}")
     public ItemStatus getItem(@PathVariable("itemID") String ID) {
@@ -59,12 +61,13 @@ public class ItemController {
             buildItemDTO.setImg(base64ItemPic);
 
             itemService.saveItem(buildItemDTO);
+            log.info("Item Successfully Saved!");
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (DataPersistException e) {
-            e.printStackTrace();
+            log.info("Item Not Saved" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info("Internal server error" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -92,12 +95,13 @@ public class ItemController {
             buildItemDTO.setImg(base64ItemPic);
 
             itemService.updateItem(itemID, buildItemDTO);
+            log.info("Item Successfully Updated!");
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (DataPersistException e) {
-            e.printStackTrace();
+            log.info("Item Not Updated" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info("Internal server error" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -106,12 +110,13 @@ public class ItemController {
     public ResponseEntity<Void> deleteCustomer(@PathVariable("itemID") String itemID) {
         try {
             itemService.deleteItem(itemID);
+            log.info("Item Successfully Deleted!");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (CustomerNotFoundException e) {
-            e.printStackTrace();
+            log.info("Item Not Deleted" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.info("Internal server error" + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
